@@ -5,11 +5,22 @@ import {
   getProductsByIdController,
 } from '../controllers/products.js';
 import { ctrlWrapper } from '../utils/ctrlWrapper.js';
+import { validationBody } from '../middlewares/validationBody.js';
+import { createProductShema } from '../validation/products.js';
+import { isValidationId } from '../middlewares/validationId.js';
 
 const router = Router();
 
 router.get('/', ctrlWrapper(getAllProductsController));
-router.get('/:productId', ctrlWrapper(getProductsByIdController));
-router.post('/', ctrlWrapper(addProductController));
+router.get(
+  '/:productId',
+  isValidationId,
+  ctrlWrapper(getProductsByIdController),
+);
+router.post(
+  '/',
+  validationBody(createProductShema),
+  ctrlWrapper(addProductController),
+);
 
 export default router;
