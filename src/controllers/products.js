@@ -7,9 +7,10 @@ import {
 import { parseFilterParams } from '../utils/parseFilterParams.js';
 
 export const getAllProductsController = async (req, res) => {
+  const userId = req.user._id;
   const filter = parseFilterParams(req.query);
 
-  const products = await getAllProducts(filter);
+  const products = await getAllProducts(filter, userId);
   res.json({
     status: 200,
     message: 'Successfully found products!',
@@ -18,9 +19,11 @@ export const getAllProductsController = async (req, res) => {
 };
 
 export const getProductsByIdController = async (req, res) => {
+  const userId = req.user._id;
+
   const { productId } = req.params;
 
-  const product = await getProductById(productId);
+  const product = await getProductById(productId, userId);
   if (!product) throw createHttpError(404, 'Product not found');
 
   res.json({
@@ -31,8 +34,12 @@ export const getProductsByIdController = async (req, res) => {
 };
 
 export const addProductController = async (req, res) => {
-  console.log('body:', req.body);
-  const product = await addProduct(req.body);
+  const userId = req.user._id;
+
+  const product = await addProduct({
+    ...req.body,
+    userId,
+  });
   res.status(201).json({
     status: 201,
     message: 'Successfully created a product!',

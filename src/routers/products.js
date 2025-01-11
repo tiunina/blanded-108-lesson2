@@ -8,8 +8,10 @@ import { ctrlWrapper } from '../utils/ctrlWrapper.js';
 import { validationBody } from '../middlewares/validationBody.js';
 import { createProductShema } from '../validation/products.js';
 import { isValidationId } from '../middlewares/validationId.js';
+import { authenticate } from '../middlewares/authenticate.js';
 
 const router = Router();
+router.use(authenticate);
 
 router.get('/', ctrlWrapper(getAllProductsController));
 router.get(
