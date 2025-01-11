@@ -1,7 +1,7 @@
 import { productsModel } from '../db/models/product.js';
 
-export const getAllProducts = (filter) => {
-  const productQuery = productsModel.find();
+export const getAllProducts = (filter, userId) => {
+  const productQuery = productsModel.find({ userId });
   if (filter.category) {
     productQuery.where('category').equals(filter.category);
   }
@@ -16,8 +16,8 @@ export const getAllProducts = (filter) => {
   return productQuery;
 };
 
-export const getProductById = (productId) => {
-  return productsModel.findById(productId);
+export const getProductById = (productId, userId) => {
+  return productsModel.findOne({ _id: productId, userId });
 };
 
 export const addProduct = (body) => {
