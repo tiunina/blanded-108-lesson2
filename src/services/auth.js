@@ -33,3 +33,7 @@ export const loginUser = async (payload) => {
     refreshTokenValidUntil: new Date(Date.now() + ONE_DAY),
   });
 };
+
+export const logoutUser = async (sessionId) => {
+  await SessionsModel.deleteOne({ _id: sessionId });
+};

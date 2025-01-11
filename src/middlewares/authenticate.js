@@ -14,6 +14,7 @@ export const authenticate = async (req, resizeBy, next) => {
     return;
   }
   const session = await SessionsModel.findOne({ accessToken: token });
+  // console.log('session', session);
   if (!session) {
     next(createHttpError(401, 'Session not found'));
     return;
