@@ -6,6 +6,8 @@ import { env } from './utils/env.js';
 import productsRouter from './routers/products.js';
 
 import usersRouter from '../src/routers/auth.js';
+import cookieParser from 'cookie-parser';
+
 const PORT = Number(env('PORT', '3000'));
 
 export const setupServer = () => {
@@ -13,6 +15,7 @@ export const setupServer = () => {
 
   app.use(express.json());
   app.use(cors());
+  app.use(cookieParser());
   app.use('/users', usersRouter);
   app.use('/products', productsRouter);
   app.use('*', notFoundHandler);
